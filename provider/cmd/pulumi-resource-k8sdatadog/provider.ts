@@ -26,14 +26,14 @@ export class Provider implements provider.Provider {
         // TODO: Add support for additional component resources here.
         switch (type) {
             case "k8sdatadog:index:K8sMonitor":
-                return await constructStackSettings(name, inputs, options);
+                return await constructK8sMonitor(name, inputs, options);
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
     }
 }
 
-async function constructStackSettings(name: string, inputs: pulumi.Inputs,
+async function constructK8sMonitor(name: string, inputs: pulumi.Inputs,
     options: pulumi.ComponentResourceOptions): Promise<provider.ConstructResult> {
 
     // Create the component resource.
