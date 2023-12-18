@@ -1,4 +1,4 @@
-VERSION         := 0.0.1
+VERSION         := 2.0.0
 
 PACK            := k8sdatadog
 ORG							:= pulumi-pequod
