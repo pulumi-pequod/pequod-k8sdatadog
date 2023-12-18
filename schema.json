@@ -1,0 +1,66 @@
+{
+    "name": "stackmgmt",
+    "pluginDownloadURL": "github://api.github.com/pulumi-pequod/pequod-stackmgmt",
+    "resources": {
+        "stackmgmt:index:StackSettings": {
+            "isComponent": true,
+            "inputProperties": {
+                "ttlTime": {
+                    "type": "number",
+                    "description": "Time to live time setting."
+                },
+                "driftManagement": {
+                    "type": "string",
+                    "description": "Drift management setting for refresh or correction."
+                },
+                "teamAssignment": {
+                    "type": "string",
+                    "description": "Team to which the stack should be assigned."
+                }
+            },
+            "requiredInputs": [
+            ],
+            "properties": {
+            },
+            "required": [
+            ]
+        }
+    },
+    "language": {
+        "csharp": {
+            "packageReferences": {
+                "Pulumi": "3.*",
+                "Pulumi.PulumiService": "0.*"
+            },
+            "respectSchemaVersion": true
+        },
+        "go": {
+            "generateResourceContainerTypes": true,
+            "importBasePath": "github.com/pulumi/pulumi-stackmgmt/sdk/go/stackmgmt",
+            "respectSchemaVersion": true
+        },
+        "nodejs": {
+            "packageName": "@pequod/stackmgmt",
+            "dependencies": {
+                "@pulumi/pulumi": "^3.0.0",
+                "@pulumi/pulumiservice": "^0.16.0",
+                "@types/node-fetch": "^2.6.2",
+                "node-fetch": "^2.6.2"
+            },
+            "devDependencies": {
+                "@types/node": "^10.0.0",
+                "pkg": "^5.6.0",
+                "typescript": "^4.6.3"
+            },
+            "respectSchemaVersion": true
+        },
+        "python": {
+            "packageName": "pequod_stackmgmt",
+            "requires": {
+                "pulumi": ">=3.0.0,<4.0.0",
+                "pulumi-pulumiservice": ">=0.0.0,<1.0.0"
+            },
+            "respectSchemaVersion": true
+        }
+    }
+}
