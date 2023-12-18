@@ -1,8 +1,8 @@
-# Pequod Stack Management Multilanguage Component
-This multilanguage component is used to manage various stack settings when launching stacks in the pequod organization via new project wizard.
+# Pequod K8s Datadog Multilanguage Component
+This multilanguage component is used to setup Datadog monitoring for K8s clusters.
 
 ## Building and Publishing the MLC 
-Whenever the component code (under provider/cmd/pulumi-resource...) has been udated, follow the process below to make the updated version available:
+Whenever the component code (under provider/cmd/pulumi-resource...) or schema.json, etc has been udated, follow the process below to make the updated version available:
 * Build the SDKs and plugins
 * Publish the plugins
 * Publish the SDKs

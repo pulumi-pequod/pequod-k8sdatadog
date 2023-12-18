@@ -1,4 +1,4 @@
-module github.com/pulumi/pulumi-pequod-stackmgmt
+module github.com/pulumi-pequod/pequod-mlc-k8sdatadog
 
 go 1.17
 

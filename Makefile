@@ -1,6 +1,6 @@
 VERSION         := 0.0.2
 
-PACK            := stackmgmt
+PACK            := k8sdatadog 
 ORG							:= pulumi-pequod
 PROJECT         := github.com/${ORG}/${PACK}
 

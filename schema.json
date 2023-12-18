@@ -1,8 +1,8 @@
 {
-    "name": "stackmgmt",
-    "pluginDownloadURL": "github://api.github.com/pulumi-pequod/pequod-stackmgmt",
+    "name": "k8sdatadog",
+    "pluginDownloadURL": "github://api.github.com/pulumi-pequod/pequod-mlc-k8sdatadog",
     "resources": {
-        "stackmgmt:index:StackSettings": {
+        "k8sdatadog:index:K8sMonitor": {
             "isComponent": true,
             "inputProperties": {
                 "ttlTime": {
@@ -36,11 +36,11 @@
         },
         "go": {
             "generateResourceContainerTypes": true,
-            "importBasePath": "github.com/pulumi/pulumi-stackmgmt/sdk/go/stackmgmt",
+            "importBasePath": "github.com/pulumi-pequod/pequod-mlc-k8sdatadog/sdk/go/k8sdatadog",
             "respectSchemaVersion": true
         },
         "nodejs": {
-            "packageName": "@pequod/stackmgmt",
+            "packageName": "@pequod/k8sdatadog",
             "dependencies": {
                 "@pulumi/pulumi": "^3.0.0",
                 "@pulumi/pulumiservice": "^0.16.0",
@@ -55,7 +55,7 @@
             "respectSchemaVersion": true
         },
         "python": {
-            "packageName": "pequod_stackmgmt",
+            "packageName": "pequod_k8sdatadog",
             "requires": {
                 "pulumi": ">=3.0.0,<4.0.0",
                 "pulumi-pulumiservice": ">=0.0.0,<1.0.0"
