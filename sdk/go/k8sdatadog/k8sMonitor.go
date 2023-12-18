@@ -7,21 +7,28 @@ import (
 	"context"
 	"reflect"
 
+	"errors"
 	"github.com/pulumi-pequod/pequod-mlc-k8sdatadog/sdk/go/k8sdatadog/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 type K8sMonitor struct {
 	pulumi.ResourceState
+
+	// Namespace in which datadog agent is installed.
+	Namespace pulumi.StringOutput `pulumi:"namespace"`
 }
 
 // NewK8sMonitor registers a new resource with the given unique name, arguments, and options.
 func NewK8sMonitor(ctx *pulumi.Context,
 	name string, args *K8sMonitorArgs, opts ...pulumi.ResourceOption) (*K8sMonitor, error) {
 	if args == nil {
-		args = &K8sMonitorArgs{}
+		return nil, errors.New("missing one or more required arguments")
 	}
 
+	if args.ApiKey == nil {
+		return nil, errors.New("invalid value for required argument 'ApiKey'")
+	}
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource K8sMonitor
 	err := ctx.RegisterRemoteComponentResource("k8sdatadog:index:K8sMonitor", name, args, &resource, opts...)
@@ -32,22 +39,14 @@ func NewK8sMonitor(ctx *pulumi.Context,
 }
 
 type k8sMonitorArgs struct {
-	// Drift management setting for refresh or correction.
-	DriftManagement *string `pulumi:"driftManagement"`
-	// Team to which the stack should be assigned.
-	TeamAssignment *string `pulumi:"teamAssignment"`
-	// Time to live time setting.
-	TtlTime *float64 `pulumi:"ttlTime"`
+	// Datadog API key needed by k8s agent to communicate with Datadog
+	ApiKey string `pulumi:"apiKey"`
 }
 
 // The set of arguments for constructing a K8sMonitor resource.
 type K8sMonitorArgs struct {
-	// Drift management setting for refresh or correction.
-	DriftManagement pulumi.StringPtrInput
-	// Team to which the stack should be assigned.
-	TeamAssignment pulumi.StringPtrInput
-	// Time to live time setting.
-	TtlTime pulumi.Float64PtrInput
+	// Datadog API key needed by k8s agent to communicate with Datadog
+	ApiKey pulumi.StringInput
 }
 
 func (K8sMonitorArgs) ElementType() reflect.Type {
@@ -135,6 +134,11 @@ func (o K8sMonitorOutput) ToK8sMonitorOutput() K8sMonitorOutput {
 
 func (o K8sMonitorOutput) ToK8sMonitorOutputWithContext(ctx context.Context) K8sMonitorOutput {
 	return o
+}
+
+// Namespace in which datadog agent is installed.
+func (o K8sMonitorOutput) Namespace() pulumi.StringOutput {
+	return o.ApplyT(func(v *K8sMonitor) pulumi.StringOutput { return v.Namespace }).(pulumi.StringOutput)
 }
 
 type K8sMonitorArrayOutput struct{ *pulumi.OutputState }

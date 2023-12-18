@@ -5,24 +5,22 @@
         "k8sdatadog:index:K8sMonitor": {
             "isComponent": true,
             "inputProperties": {
-                "ttlTime": {
-                    "type": "number",
-                    "description": "Time to live time setting."
-                },
-                "driftManagement": {
+                "apiKey": {
                     "type": "string",
-                    "description": "Drift management setting for refresh or correction."
-                },
-                "teamAssignment": {
-                    "type": "string",
-                    "description": "Team to which the stack should be assigned."
+                    "description": "Datadog API key needed by k8s agent to communicate with Datadog"
                 }
             },
             "requiredInputs": [
+                "apiKey"
             ],
             "properties": {
+                "namespace": {
+                    "type": "string",
+                    "description": "Namespace in which datadog agent is installed."
+                }
             },
             "required": [
+                "namespace"
             ]
         }
     },

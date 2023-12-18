@@ -14,57 +14,24 @@ __all__ = ['K8sMonitorArgs', 'K8sMonitor']
 @pulumi.input_type
 class K8sMonitorArgs:
     def __init__(__self__, *,
-                 drift_management: Optional[pulumi.Input[str]] = None,
-                 team_assignment: Optional[pulumi.Input[str]] = None,
-                 ttl_time: Optional[pulumi.Input[float]] = None):
+                 api_key: pulumi.Input[str]):
         """
         The set of arguments for constructing a K8sMonitor resource.
-        :param pulumi.Input[str] drift_management: Drift management setting for refresh or correction.
-        :param pulumi.Input[str] team_assignment: Team to which the stack should be assigned.
-        :param pulumi.Input[float] ttl_time: Time to live time setting.
+        :param pulumi.Input[str] api_key: Datadog API key needed by k8s agent to communicate with Datadog
         """
-        if drift_management is not None:
-            pulumi.set(__self__, "drift_management", drift_management)
-        if team_assignment is not None:
-            pulumi.set(__self__, "team_assignment", team_assignment)
-        if ttl_time is not None:
-            pulumi.set(__self__, "ttl_time", ttl_time)
+        pulumi.set(__self__, "api_key", api_key)
 
     @property
-    @pulumi.getter(name="driftManagement")
-    def drift_management(self) -> Optional[pulumi.Input[str]]:
+    @pulumi.getter(name="apiKey")
+    def api_key(self) -> pulumi.Input[str]:
         """
-        Drift management setting for refresh or correction.
+        Datadog API key needed by k8s agent to communicate with Datadog
         """
-        return pulumi.get(self, "drift_management")
+        return pulumi.get(self, "api_key")
 
-    @drift_management.setter
-    def drift_management(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "drift_management", value)
-
-    @property
-    @pulumi.getter(name="teamAssignment")
-    def team_assignment(self) -> Optional[pulumi.Input[str]]:
-        """
-        Team to which the stack should be assigned.
-        """
-        return pulumi.get(self, "team_assignment")
-
-    @team_assignment.setter
-    def team_assignment(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "team_assignment", value)
-
-    @property
-    @pulumi.getter(name="ttlTime")
-    def ttl_time(self) -> Optional[pulumi.Input[float]]:
-        """
-        Time to live time setting.
-        """
-        return pulumi.get(self, "ttl_time")
-
-    @ttl_time.setter
-    def ttl_time(self, value: Optional[pulumi.Input[float]]):
-        pulumi.set(self, "ttl_time", value)
+    @api_key.setter
+    def api_key(self, value: pulumi.Input[str]):
+        pulumi.set(self, "api_key", value)
 
 
 class K8sMonitor(pulumi.ComponentResource):
@@ -72,23 +39,19 @@ class K8sMonitor(pulumi.ComponentResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 drift_management: Optional[pulumi.Input[str]] = None,
-                 team_assignment: Optional[pulumi.Input[str]] = None,
-                 ttl_time: Optional[pulumi.Input[float]] = None,
+                 api_key: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         Create a K8sMonitor resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[str] drift_management: Drift management setting for refresh or correction.
-        :param pulumi.Input[str] team_assignment: Team to which the stack should be assigned.
-        :param pulumi.Input[float] ttl_time: Time to live time setting.
+        :param pulumi.Input[str] api_key: Datadog API key needed by k8s agent to communicate with Datadog
         """
         ...
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: Optional[K8sMonitorArgs] = None,
+                 args: K8sMonitorArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Create a K8sMonitor resource with the given unique name, props, and options.
@@ -107,9 +70,7 @@ class K8sMonitor(pulumi.ComponentResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 drift_management: Optional[pulumi.Input[str]] = None,
-                 team_assignment: Optional[pulumi.Input[str]] = None,
-                 ttl_time: Optional[pulumi.Input[float]] = None,
+                 api_key: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -121,13 +82,22 @@ class K8sMonitor(pulumi.ComponentResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = K8sMonitorArgs.__new__(K8sMonitorArgs)
 
-            __props__.__dict__["drift_management"] = drift_management
-            __props__.__dict__["team_assignment"] = team_assignment
-            __props__.__dict__["ttl_time"] = ttl_time
+            if api_key is None and not opts.urn:
+                raise TypeError("Missing required property 'api_key'")
+            __props__.__dict__["api_key"] = api_key
+            __props__.__dict__["namespace"] = None
         super(K8sMonitor, __self__).__init__(
             'k8sdatadog:index:K8sMonitor',
             resource_name,
             __props__,
             opts,
             remote=True)
+
+    @property
+    @pulumi.getter
+    def namespace(self) -> pulumi.Output[str]:
+        """
+        Namespace in which datadog agent is installed.
+        """
+        return pulumi.get(self, "namespace")
 

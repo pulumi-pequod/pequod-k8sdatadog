@@ -13,13 +13,20 @@ namespace Pulumi.K8sdatadog
     public partial class K8sMonitor : global::Pulumi.ComponentResource
     {
         /// <summary>
+        /// Namespace in which datadog agent is installed.
+        /// </summary>
+        [Output("namespace")]
+        public Output<string> Namespace { get; private set; } = null!;
+
+
+        /// <summary>
         /// Create a K8sMonitor resource with the given unique name, arguments, and options.
         /// </summary>
         ///
         /// <param name="name">The unique name of the resource</param>
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public K8sMonitor(string name, K8sMonitorArgs? args = null, ComponentResourceOptions? options = null)
+        public K8sMonitor(string name, K8sMonitorArgs args, ComponentResourceOptions? options = null)
             : base("k8sdatadog:index:K8sMonitor", name, args ?? new K8sMonitorArgs(), MakeResourceOptions(options, ""), remote: true)
         {
         }
@@ -41,22 +48,10 @@ namespace Pulumi.K8sdatadog
     public sealed class K8sMonitorArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// Drift management setting for refresh or correction.
+        /// Datadog API key needed by k8s agent to communicate with Datadog
         /// </summary>
-        [Input("driftManagement")]
-        public Input<string>? DriftManagement { get; set; }
-
-        /// <summary>
-        /// Team to which the stack should be assigned.
-        /// </summary>
-        [Input("teamAssignment")]
-        public Input<string>? TeamAssignment { get; set; }
-
-        /// <summary>
-        /// Time to live time setting.
-        /// </summary>
-        [Input("ttlTime")]
-        public Input<double>? TtlTime { get; set; }
+        [Input("apiKey", required: true)]
+        public Input<string> ApiKey { get; set; } = null!;
 
         public K8sMonitorArgs()
         {

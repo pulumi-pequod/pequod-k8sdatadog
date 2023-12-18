@@ -19,6 +19,10 @@ export class K8sMonitor extends pulumi.ComponentResource {
         return obj['__pulumiType'] === K8sMonitor.__pulumiType;
     }
 
+    /**
+     * Namespace in which datadog agent is installed.
+     */
+    public /*out*/ readonly namespace!: pulumi.Output<string>;
 
     /**
      * Create a K8sMonitor resource with the given unique name, arguments, and options.
@@ -27,14 +31,17 @@ export class K8sMonitor extends pulumi.ComponentResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args?: K8sMonitorArgs, opts?: pulumi.ComponentResourceOptions) {
+    constructor(name: string, args: K8sMonitorArgs, opts?: pulumi.ComponentResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            resourceInputs["driftManagement"] = args ? args.driftManagement : undefined;
-            resourceInputs["teamAssignment"] = args ? args.teamAssignment : undefined;
-            resourceInputs["ttlTime"] = args ? args.ttlTime : undefined;
+            if ((!args || args.apiKey === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'apiKey'");
+            }
+            resourceInputs["apiKey"] = args ? args.apiKey : undefined;
+            resourceInputs["namespace"] = undefined /*out*/;
         } else {
+            resourceInputs["namespace"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(K8sMonitor.__pulumiType, name, resourceInputs, opts, true /*remote*/);
@@ -46,15 +53,7 @@ export class K8sMonitor extends pulumi.ComponentResource {
  */
 export interface K8sMonitorArgs {
     /**
-     * Drift management setting for refresh or correction.
+     * Datadog API key needed by k8s agent to communicate with Datadog
      */
-    driftManagement?: pulumi.Input<string>;
-    /**
-     * Team to which the stack should be assigned.
-     */
-    teamAssignment?: pulumi.Input<string>;
-    /**
-     * Time to live time setting.
-     */
-    ttlTime?: pulumi.Input<number>;
+    apiKey: pulumi.Input<string>;
 }
