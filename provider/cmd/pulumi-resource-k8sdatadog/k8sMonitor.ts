@@ -4,6 +4,7 @@ import * as k8s from "@pulumi/kubernetes";
 // Interface for Network
 export interface K8sMonitorArgs{
   apiKey: Output<string>,
+  datadogHelmChartVersion?: string,
 }
 
 // Creates Network elements (e.g. VPC, etc)
@@ -22,7 +23,7 @@ export class K8sMonitor extends ComponentResource {
       repositoryOpts: {
           repo: "https://helm.datadoghq.com",
       },
-      version: "3.49.5",
+      version: args.datadogHelmChartVersion || "3.70.7",
       values: {
           datadog: {
             apiKey: args.apiKey,

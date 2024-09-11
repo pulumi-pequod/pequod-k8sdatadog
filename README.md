@@ -21,6 +21,7 @@ make dist
 ```
 
 ## Publish the Plugins
+* Push/merge the code to the repo.
 * Create a new github release of this repo using the same version number in the Makefile.
 * Upload the files in the `dist` folder as attachments to the release.
 
